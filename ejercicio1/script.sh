@@ -423,8 +423,6 @@ crearReportePinturas(){
 	echo -e "${GREEN}Reporte generado correctamente:${NC}"
 	
 	echo -e $SEP
-	cat "$datosCSV"
-	echo -e $SEP
 	menu
 }
 
