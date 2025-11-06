@@ -420,7 +420,7 @@ crearReportePinturas(){
 
 	awk -F' - ' '{print $1","$2","$3","$4","$5","$6}' ./lista_productos.txt >> "$datosCSV"
 
-	echo -e "${GREEN}Reporte generado correctamente en $(realpath $datosCSV) :${NC}"
+	echo -e "${GREEN}Reporte generado correctamente en ${NC}$(realpath $datosCSV)${GREEN} :${NC}"
 	
 	echo -e $SEP
 	menu
