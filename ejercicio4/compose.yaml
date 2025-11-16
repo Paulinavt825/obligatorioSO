@@ -4,9 +4,18 @@ networks:
 
 services:
   # Servicio de la aplicación web Node.js
-  webapp:
+  web1:
+    image: web-img
     build: ./web
-    hostname: webapp
+    hostname: web1
+    restart: unless-stopped
+    depends_on:
+      - redis
+    networks:
+      - so_network
+  web2:
+    image: web-img
+    hostname: web2
     restart: unless-stopped
     depends_on:
       - redis
@@ -26,6 +35,7 @@ services:
 
   # Servicio de Nginx como balanceador de carga
   balanceador:
+    image: nginx-img
     build: ./nginx
     hostname: balanceador
     restart: unless-stopped
@@ -33,6 +43,7 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - webapp
+      - web1
+      - web2
     networks:
       - so_network
