@@ -74,62 +74,57 @@ def2e0cd9637  localhost/nginx-lb:latest             nginx -g daemon o...  5 minu
 4 - DOCKER COMPOSE
 
 fran@piplup:~/obligatorioSo/ejercicio4$ podman-compose build
-STEP 1/2: FROM nginx:1.29.3-alpine
-STEP 1/7: FROM node:25-alpine
-Resolved "nginx" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
-Trying to pull docker.io/library/nginx:1.29.3-alpine...
+STEP 1/6: FROM node:25.2-alpine
+STEP 1/2: FROM nginx:1.29-alpine
 Resolved "node" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
-Trying to pull docker.io/library/node:25-alpine...
+Trying to pull docker.io/library/node:25.2-alpine...
+Resolved "nginx" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/nginx:1.29-alpine...
 Getting image source signatures
-(...)
+(... copying blobs and config ...)
 Writing manifest to image destination
-STEP 2/7: WORKDIR /app
---> cc0736135d67
-STEP 3/7: COPY package*.json ./
+STEP 2/2: COPY src/default.conf /etc/nginx/conf.d/
+STEP 2/6: WORKDIR /app
+--> adf953798f79
+STEP 3/6: COPY src/ .
 COMMIT ejercicio4_balanceador
---> 4e1b5f4ca87d
+--> d47b508cbfdf
 Successfully tagged localhost/ejercicio4_balanceador:latest
-4e1b5f4ca87d8a51b3aece1ad48aa8578f549975435b374f43941fbff63d2e3a
---> e5b52f523198
-STEP 4/7: RUN npm install
+d47b508cbfdf488dc878b5db4a48aad87a62a3b6240de3ecdd20af00bce82635
+--> 5d84e519c1df
+STEP 4/6: RUN npm install
 
-added 126 packages, and audited 127 packages in 988ms
+added 126 packages, and audited 127 packages in 943ms
 
 30 packages are looking for funding
   run `npm fund` for details
 
 found 0 vulnerabilities
---> 122ffae105b1
-STEP 5/7: COPY . .
---> b1995e2764a7
-STEP 6/7: EXPOSE 5000
---> 447ffbe1e5c6
-STEP 7/7: CMD ["npm", "start"]
+--> 3c4dee35ec94
+STEP 5/6: EXPOSE 5000
+--> c7cc347c0ab0
+STEP 6/6: CMD ["npm", "start"]
 COMMIT ejercicio4_webapp
---> 142c969de0d8
+--> 1afa8783790b
 Successfully tagged localhost/ejercicio4_webapp:latest
-142c969de0d8b1f0b8e3b10e51f2ac40567f360e26cd9e3b47d15e776ca162e7
+1afa8783790b0364daa49b8ac05a9c152d9951173a93cae70c6628bef405c248
 
 fran@piplup:~/obligatorioSo/ejercicio4$ podman compose up -d --scale webapp=3
-Trying to pull docker.io/library/redis:8.2.3-alpine...
-Getting image source signatures
-(...)
-Writing manifest to image destination
-181dc84c0e19c5d24114671e1c0836696e4bafeb3ed7a7a4472af13f50dd727d
-877b06a164da85a77eeaaea1c65b799c3327a25a59a2cd1e30b7ee69b1ca9d80
-17cb7c5bee7c5c8f18b92e3868f6e94d8b9887ae9f7b9bd7a5c2984ab2089f66
-1c032e65a72014ac752a524d103335d18dddba00bab821a920ef1552584984d9
-3ce574ebd1236ffda02b71cea2b01d0287554746dcc9e585744bd26fe42622c0
-redis
+89b0b09e91f6009beef9e104a37a5fb430aefa1c5dbe9f633ed59d2531983323
+b542aff68cf3a3a3c2f2fc491313fd4a77be65348980fa600276dc697d3e1cc0
+d827d84d8743ca19693f4fa1a94fa764f5fe55820853c9eccc090812c0587208
+cf13d12df28ef17d2c46fa3d4f9cebf07c8e8c2a463a90e099df659cb53049d5
+9589d95fcf583cb6eee6f48805ab70b256b43211f19c06ef062b79fbb86ec27b
+ejercicio4_redis_1
 ejercicio4_webapp_1
 ejercicio4_webapp_2
 ejercicio4_webapp_3
-balanceador
+ejercicio4_balanceador_1
 
 fran@piplup:~/obligatorioSo/ejercicio4$ podman ps
 CONTAINER ID  IMAGE                                    COMMAND               CREATED         STATUS         PORTS                   NAMES
-181dc84c0e19  docker.io/library/redis:8.2.3-alpine     redis-server --sa...  53 seconds ago  Up 53 seconds  6379/tcp                redis
-877b06a164da  localhost/ejercicio4_webapp:latest       npm start             53 seconds ago  Up 53 seconds  5000/tcp                ejercicio4_webapp_1
-17cb7c5bee7c  localhost/ejercicio4_webapp:latest       npm start             53 seconds ago  Up 53 seconds  5000/tcp                ejercicio4_webapp_2
-1c032e65a720  localhost/ejercicio4_webapp:latest       npm start             53 seconds ago  Up 53 seconds  5000/tcp                ejercicio4_webapp_3
-3ce574ebd123  localhost/ejercicio4_balanceador:latest  nginx -g daemon o...  53 seconds ago  Up 52 seconds  0.0.0.0:8080->80/tcp    balanceador
+c87c6649fafe  docker.io/library/redis:8.2-alpine       redis-server --sa...  33 seconds ago  Up 32 seconds  6379/tcp                ejercicio4_redis_1
+4662c9e7a1c7  localhost/ejercicio4_webapp:latest       npm start             32 seconds ago  Up 32 seconds  5000/tcp                ejercicio4_webapp_1
+fa824e59829a  localhost/ejercicio4_webapp:latest       npm start             32 seconds ago  Up 32 seconds  5000/tcp                ejercicio4_webapp_2
+d028c9aaad23  localhost/ejercicio4_webapp:latest       npm start             32 seconds ago  Up 32 seconds  5000/tcp                ejercicio4_webapp_3
+7a021538192d  localhost/ejercicio4_balanceador:latest  nginx -g daemon o...  32 seconds ago  Up 32 seconds  0.0.0.0:8080->80/tcp    ejercicio4_balanceador_1
