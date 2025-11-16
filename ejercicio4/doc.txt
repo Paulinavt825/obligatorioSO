@@ -1,0 +1,13 @@
+1- NODEJS
+
+para redireccionamiento de puertos: -p 5000:5000
+
+fran@piplup:~/obligatorioSo$ podman run -d --name nodejs bee2db7ae575
+cac8690e534c51e93b7638f7f4ccce0d58465fa0148eef4790be251dda96c4ec
+fran@piplup:~/obligatorioSo$ podman container ls -a
+CONTAINER ID  IMAGE                                COMMAND               CREATED        STATUS                     PORTS                   NAMES
+cac8690e534c  bee2db7ae575                         npm start             3 seconds ago  Up 3 seconds               0.0.0.0:5000->5000/tcp  nodejs
+
+2- REDIS
+
+fran@piplup:~/obligatorioSo$ podman run --name redis -d docker.io/redis:8.2.3-alpine redis-server --save 60 1
